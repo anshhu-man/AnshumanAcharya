@@ -1,7 +1,9 @@
 package com.example.anshumanacharya
 
 import BatchDetail
+import BatchMst
 import BatchSummary
+import android.content.res.AssetManager.AssetInputStream
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,59 +14,115 @@ import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anshumanacharya.databinding.ActivityMainBinding
 import data
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.InputStream
+import java.nio.charset.StandardCharsets
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var call: Call<data>
     private lateinit var adapter: RecyclerAdapter
-    private lateinit var list1: ArrayList<BatchDetail>
-    private lateinit var list2: ArrayList<BatchSummary>
+    private lateinit var list: ArrayList<data>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val retrofit = RetrofitInstance.getRetrofitInstance()
-        val api = retrofit.create(MyInterface::class.java)
-        call = api.fetchData()
-
-        list1 = ArrayList()
-        list2 = ArrayList()
-        adapter = RecyclerAdapter(list1)
+        list = ArrayList()
+        adapter = RecyclerAdapter(list)
         binding.apply {
             rvMain.layoutManager = LinearLayoutManager(this@MainActivity)
             rvMain.adapter = adapter
         }
 
-        getRequestWithQueryParameters()
+        loadJson()
 
     }
 
-    private fun getRequestWithQueryParameters(){
-        call.enqueue(object: Callback<data> {
-            override fun onResponse(call: Call<data>, response: Response<data>) {
-                Log.i("MYTAG","OnResponse: code : "+response.code()+" "+response.body()!!)
-                if(response.isSuccessful) {
-                    val dataResponse = response.body()!!
-                    for (myData in dataResponse.batch_mst.batch_details)
-                        list1.add(myData)
-                    for (myData in dataResponse.batch_mst.batch_summary)
-                        list2.add(myData)
-                    adapter.notifyDataSetChanged()
-                    binding.rvMain.adapter = adapter
+    private fun loadJson(){
+        try {
+            val inputStream:InputStream = assets.open("info.json")
+            val size = inputStream.available()
+            val buffer = ByteArray(size)
+            inputStream.read(buffer)
+            inputStream.close()
+
+            val json = String(buffer,StandardCharsets.UTF_8)
+            val batchDetails = JSONArray(json).getJSONObject(0)
+                .getJSONObject("batch_mst")
+                .getJSONArray("batch_details")
+
+
+            var batch = batchDetails.getJSONObject(0)
+            var invDescp = batch.getString("invcod")
+            var count = 1
+            var pcs = 1
+            var typeWt = batch.getDouble("net_qty")
+            var totalGrams = batch.getDouble("gr_qty")
+            var netWt = batch.getDouble("net_qty")
+            var invtype = batch.getString("invtype")
+            var result = ""
+            var st=0
+
+            for(i in 0 until batchDetails.length()){
+                batch = batchDetails.getJSONObject(i)
+                if(batch.getString("racodno")=="0"){
+                    invDescp = batch.getString("invcod")
+                    typeWt = batch.getDouble("net_qty")
+                    totalGrams = batch.getDouble("gr_qty")
+                    netWt = batch.getDouble("net_qty")
+                    invtype = batch.getString("invtype")
+                    st=i+1
+                    break
                 }
             }
 
-            override fun onFailure(call: Call<data>, t: Throwable) {
-                Toast.makeText(this@MainActivity, t.message,Toast.LENGTH_LONG).show()
-                t.message?.let { Log.i("MYTAG", it) }
+            for(i in st until batchDetails.length()){
+
+                batch = batchDetails.getJSONObject(i)
+
+                if(batch.getString("racodno")=="0"){
+
+                    if(invDescp == batch.getString("invcod")){
+                        totalGrams += batch.getDouble("gr_qty")
+                        netWt += batch.getDouble("net_qty")
+                        count++
+                        if(invtype == batch.getString("invtype")){
+                            pcs++
+                            typeWt += batch.getDouble("net_qty")
+                        }
+                        else{
+                            list.add(data(invDescp,count,totalGrams,netWt,invtype,pcs,typeWt))
+                            invtype = batch.getString("invtype")
+                            typeWt = batch.getDouble("net_qty")
+                            pcs = 1
+                        }
+                    }
+                    else{
+                        list.add(data(invDescp,count,totalGrams,netWt,invtype,pcs,typeWt))
+                        invDescp = batch.getString("invcod")
+                        totalGrams = batch.getDouble("gr_qty")
+                        netWt = batch.getDouble("net_qty")
+                        invtype = batch.getString("invtype")
+                        typeWt = batch.getDouble("net_qty")
+                        pcs = 1
+                        count = 1
+                    }
+                }
             }
 
-        })
+            list.add(data(invDescp,count,totalGrams,netWt,invtype,pcs,typeWt))
+
+            result += list + "\n"
+            Log.i("MYTAG", "loadJson: $result")
+
+            }
+        catch (e:Exception){
+            Log.e("MYTAG", "loadJson error: $e")
+        }
     }
 }

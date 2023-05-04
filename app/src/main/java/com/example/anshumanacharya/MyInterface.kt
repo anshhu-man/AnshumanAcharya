@@ -6,6 +6,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface MyInterface {
-    @GET(":8069/WebService.asmx/GetJsonDATA?QueryNo=18&co_code=A&invcode=F1B002&opncl=D&co_id=ananta&b_code=341&txntyp=sa&docod=xx&docno=544&user_id=1&acode=XX&sessionId=sahil&JSONStringFormat1=[{\"opncl\":\"O\",\"invcodstart\":\"AD\",\"invcodend\":\"EM1\",\"loc\":\"HO\",\"co_id\":\"ananta\"}]")
+    @GET("WebService.asmx/GetJsonDATA?QueryNo=string&co_code=string&invcode=string&opncl=string&co_id=string&b_code=string&txntyp=string&docod=string&docno=string&user_id=string&acode=string&sessionId=string&JSONStringFormat1=string HTTP/1.1")
     fun fetchData(): Call<data>
 }

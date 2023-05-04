@@ -12,7 +12,7 @@
         android:layout_marginVertical="12dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        app:cardBackgroundColor="#2CFFFFFF"
+        android:background="@color/white"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,9 +23,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:orientation="vertical"
-            app:cardUseCompatPadding="true">
+            android:layout_margin="20dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -33,20 +32,32 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="DESCP: "
+                    android:textSize="16sp" />
+                <TextView
                     android:id="@+id/descp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="INV DESCP"
+                    android:text="DESCP"
                     android:textSize="16sp" />
                 <TextView
-                    android:id="@+id/count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="150dp"
+                    android:layout_marginStart="125dp"
                     android:layout_marginTop="10dp"
-                    android:text="Tag Count"
+                    android:text="Count:"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Count"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -54,21 +65,34 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Grs.Wt: "
+                    android:textSize="16sp" />
                 <TextView
                     android:id="@+id/grsWt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="Total Grs Wt"
+                    android:text="Grs Wt"
+                    android:textSize="16sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="110dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Nt.Wt: "
                     android:textSize="16sp" />
                 <TextView
                     android:id="@+id/netWt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
                     android:layout_marginTop="10dp"
                     android:text="Total Net Wt"
                     android:textSize="16sp" />
@@ -78,65 +102,53 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Type: "
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/descp1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="INV DESCP1"
+                    android:text="Type"
                     android:textSize="16sp" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Pcs: "
+                    android:textSize="16sp" />
                 <TextView
                     android:id="@+id/pcs1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:text="Total Pcs1"
+                    android:text="Pcs: "
+                    android:textSize="16sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Nt.Wt: "
                     android:textSize="16sp" />
                 <TextView
                     android:id="@+id/netWt1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:text="Total Net Wt 2"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:id="@+id/descp2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="INV DESCP2"
-                    android:textSize="16sp" />
-                <TextView
-                    android:id="@+id/pcs2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Total Pcs2"
-                    android:textSize="16sp" />
-                <TextView
-                    android:id="@+id/netWt2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Total Net Wt 2"
+                    android:text="Nt.Wt "
                     android:textSize="16sp" />
 
             </LinearLayout>
