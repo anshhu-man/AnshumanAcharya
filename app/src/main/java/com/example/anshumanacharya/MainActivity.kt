@@ -20,6 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.InputStream
 import java.nio.charset.StandardCharsets
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             var netWt = batch.getDouble("net_qty")
             var invtype = batch.getString("invtype")
             var result = ""
-            var st=0
+            var st=1
 
             for(i in 0 until batchDetails.length()){
                 batch = batchDetails.getJSONObject(i)
@@ -91,18 +92,27 @@ class MainActivity : AppCompatActivity() {
                         totalGrams += batch.getDouble("gr_qty")
                         netWt += batch.getDouble("net_qty")
                         count++
+
                         if(invtype == batch.getString("invtype")){
                             pcs++
                             typeWt += batch.getDouble("net_qty")
                         }
+
                         else{
+                            totalGrams = (totalGrams*100.0).roundToInt() / 100.0
+                            netWt = (netWt*100.0).roundToInt() / 100.0
+                            typeWt = (typeWt*100.0).roundToInt() / 100.0
                             list.add(data(invDescp,count,totalGrams,netWt,invtype,pcs,typeWt))
                             invtype = batch.getString("invtype")
                             typeWt = batch.getDouble("net_qty")
                             pcs = 1
                         }
                     }
+
                     else{
+                        totalGrams = (totalGrams * 100.0).roundToInt() / 100.0
+                        netWt = (netWt * 100.0).roundToInt() / 100.0
+                        typeWt = (typeWt * 100.0).roundToInt() / 100.0
                         list.add(data(invDescp,count,totalGrams,netWt,invtype,pcs,typeWt))
                         invDescp = batch.getString("invcod")
                         totalGrams = batch.getDouble("gr_qty")
@@ -115,12 +125,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            totalGrams = (totalGrams * 100.0).roundToInt() / 100.0
+            netWt = (netWt * 100.0).roundToInt() / 100.0
+            typeWt = (typeWt * 100.0).roundToInt() / 100.0
+
             list.add(data(invDescp,count,totalGrams,netWt,invtype,pcs,typeWt))
 
             result += list + "\n"
             Log.i("MYTAG", "loadJson: $result")
+        }
 
-            }
         catch (e:Exception){
             Log.e("MYTAG", "loadJson error: $e")
         }
